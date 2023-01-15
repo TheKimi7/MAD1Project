@@ -1,0 +1,27 @@
+{% extends "common.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1 align="center">Edit Post</h1>
+<form method="POST">
+    <textarea class="form-control form-control-lg" type="text" placeholder="Edit your Title" name="title" id="'title">{{post.title}}</textarea>
+    </br>
+    <textarea name="caption" id="caption" class="form-control" placeholder="Edit your Caption">{{post.caption}}</textarea>
+    </br>
+    <div align="center">
+        <a href="/home.html"><button class="btn btn-secondary" type="cancel">Cancel</button></a>
+        <button class="btn btn-secondary" type="submit">Edit Post</button>
+    </div>
+    <div>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+          {% for category, message in messages %}
+          <div class="alert alert-{{category}} alter-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      </div>
+</form>
+{% endblock %}

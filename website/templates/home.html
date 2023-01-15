@@ -1,0 +1,65 @@
+{% extends "common.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div style="max-width: 1000px;">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{category}} alter-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+{% for post in posts %}
+</br>
+<div align="center">
+  <div class="card" style="max-width: 1000px;">
+    <div class="card-header">
+      <div class="media d-flex flex-row">
+        <style>.account-img {margin-right: 10px; margin-bottom: 5px; width: 40px; height: 40px;}</style>
+        <img class="rounded-circle account-img" src="{{post.author.profile_pic}}">
+        <a href="/user/{{post.author.username}}" class="card-title"><h5>{{post.author.username}}</h5></a>
+      </div>
+    <div class="d-flex justify-content-between align-items-center">
+    <h7 class="card-subtitle mb-2 text-muted">Posted on: {{post.date_created}}</h7>
+    {% if user.id == post.author_user %}
+    <div class="btn-group">
+      <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+        <a href="/editpost/{{post.id}}"><button type="button" class="btn">Edit Post</button></a>
+        <button type="button" class="btn"><a data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a></button>
+      </ul>
+      <div class="modal fade " id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Post</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete the post?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <a href="/deletepost/{{post.id}}"><button type="button" class="btn btn-danger">Delete</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    </div>
+    </div>
+    <div align='center'><img class="img-fluid" src="{{post.image}}"/></div>
+    <div align="left" class="card-body">
+      <h4 class="card-title">{{post.title}}</h4>
+      <p class="card-text">{{post.caption}}</p>
+    </div>
+  </div>
+  </div>
+{% endfor %}
+{% endblock %}

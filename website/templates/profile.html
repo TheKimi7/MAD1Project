@@ -1,0 +1,117 @@
+{% extends "common.html" %}
+{% block title %}{{username}}'s Profile{% endblock %}
+{% block content %}
+<div>
+  {% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{category}} alter-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+</div>
+<h3>Profile Overview</h3>
+</br>
+<div class="card w-100">
+  <div align='center' class="card-body">
+    <div class="media">
+      <style>.account-img {margin-right: 10px; margin-bottom: 5px; width: 100px; height: 100px;}</style>
+      <img class="rounded-circle account-img" src="{{User.profile_pic}}">
+      <div class="align-self-center"><h3>@{{username}}</h3></div>
+      {% if user.id == User.id %}
+      <a href="/edituser/{{User.id}}" class="btn btn-outline-secondary">Edit Profile</a>
+      <button type="button" class="btn btn-outline-danger"><a data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a></button>
+    <div class="modal fade " id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete account</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete the account?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a href="/deleteuser/{{User.id}}"><button type="button" class="btn btn-danger">Delete</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+      {% elif not current_user.is_following(User) %}
+      <a href="/follow/{{User.username}}" class="btn btn-primary">Follow</a>
+      {% else %}
+      <a href="/unfollow/{{User.username}}" class="btn btn-outline-secondary">Unfollow</a>
+      {% endif %}
+    </div>
+  </br>
+    <div class="d-flex justify-content-evenly">
+    <div>
+    <h5 class="card-title">Posts</h5>
+    <p class="card-text">{{lezn}}</p>
+    </div>
+    <div>
+      <h5 class="card-title">Followers</h5>
+      <p class="card-text">{{ User.followers.count() }}</p>
+      </div>
+    <div>
+        <h5 class="card-title">Following</h5>
+        <p class="card-text">{{ User.followed.count() }}</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% if lezn == 0 %}
+</br>
+<h4>No Posts to show</h4>
+{% else %}
+{% for post in posts %}
+</br>
+<div class="card">
+  <div class="card-header">
+      <div class="d-flex justify-content-between align-items-center">
+      <h7 class="card-subtitle mb-2 text-muted">Posted on: {{post.date_created}}</h7>
+  {% if user.id == post.author_user %}
+  <div class="btn-group">
+    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+      <a href="/editpost/{{post.id}}"><button type="button" class="btn">Edit Post</button></a>
+      <button type="button" class="btn"><a data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a></button>
+    </ul>
+    <div class="modal fade " id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Post</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete the post?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a href="/deletepost/{{post.id}}"><button type="button" class="btn btn-danger">Delete</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  </div>
+
+  </div>
+  <img src="{{post.image}}" class="card-img-top">
+  <div class="card-body">
+    <h4 class="card-title">{{post.title}}</h4>
+    <p class="card-text">{{post.caption}}</p>
+  </div>
+
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

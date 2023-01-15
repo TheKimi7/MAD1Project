@@ -1,0 +1,33 @@
+{% extends "common.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1 align="center"> Create a Post</h1>
+<div>
+  <form method="POST" action="" enctype="multipart/form-data" style="max-width: 1000px;">
+    <div class="form-group">
+      {{ form.picture.label() }}
+      {{ form.picture(class="form-control-file", accept="image/*") }}
+    </div>
+  </br>
+      <input class="form-control form-control-lg" type="text" placeholder="Enter a title for your post" name="title" id="'title">
+      </br>
+      <textarea name="caption" id="caption" class="form-control" placeholder="Enter a caption for your post"></textarea>
+      </br>
+      <div align="center">
+          <button class="btn btn-primary" type="submit" style="background-color: #712cf6">Create Post</button>
+      </div>
+      <div>
+          {% with messages = get_flashed_messages(with_categories=True) %}
+          {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{category}} alter-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        </div>
+  </form>
+</div>
+{% endblock %}
