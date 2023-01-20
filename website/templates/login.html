@@ -32,6 +32,7 @@
       </div>
       <style>.alert {position: left; width: 500px;} .btn-close {position:right;}</style>
       <div>
+      </br>
         {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
           {% for category, message in messages %}
@@ -39,10 +40,12 @@
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
           </div>
+        </br>
           {% endfor %}
         {% endif %}
       {% endwith %}
       </div>
     </div>
   </form>
+</br>
   {% endblock %}

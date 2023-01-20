@@ -1,0 +1,96 @@
+{% extends "common.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+<div>
+  {% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{category}} alter-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+</div>
+<div class="card mb-3">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Modern Application Development - 1 Project</h2>
+      <p class="card-text"><h5>Flask Blog Lite : a Blogger app made using Flask Framework</h5>
+        This flask web app is done as a part of the course <b>Modern Application Development I - Project</b> <i>(BSCCS2003P)</i>
+        in the term of <b>September 2022</b> during the <i>Diploma Level of BS in Data Science and Applications</i> programme offered by
+        Indian Institute of Technology Madras.</p>
+      </b>
+        <p>
+        <h4>Description:</h4>
+	      This app has the basic functionalities of a blog such as Create, Read, Update and Delete both the Users and Posts
+        and lets users to follow one another.
+        </p>
+        <h4>Languages/Frameworks Used:</h4>
+        <ol>
+          <li>Flask and its related packages (flask_login, flask_wtf, etc.)</li>
+          <li>Flask-SQLAlchemy for SQLite3 database integration</li>
+          <li>SQLiteDB – Database Management</li>
+          <li>Jinja2 – HTML Markup Language</li>
+          <li>Bootstrap – For styling the app (included via CDN)</li>
+        </ol>
+        <h4>Directory Architecture:</h4>
+        <p>
+          <div class="highlight"><pre tableindex='0' class="chroma">
+            <code class="language-text" data-lang="text"><span class="line"><span class="cl">root/
+            </span></span><span class="line"><span class="cl">|   app.py
+            </span></span><span class="line"><span class="cl">|   Procfile
+            </span></span><span class="line"><span class="cl">|
+            </span></span><span class="line"><span class="cl">├───instance
+            </span></span><span class="line"><span class="cl">│       dbase.db
+            </span></span><span class="line"><span class="cl">│
+            </span></span><span class="line"><span class="cl">├───website
+            </span></span><span class="line"><span class="cl">│   │   auth.py
+            </span></span><span class="line"><span class="cl">│   │   imageupload.py
+            </span></span><span class="line"><span class="cl">│   │   models.py
+            </span></span><span class="line"><span class="cl">│   │   models.py
+            </span></span><span class="line"><span class="cl">│   │   views.py
+            </span></span><span class="line"><span class="cl">│   │   __init__.py
+            </span></span><span class="line"><span class="cl">│   ├───static
+            </span></span><span class="line"><span class="cl">│   │   ├───post_pic
+            </span></span><span class="line"><span class="cl">│   │   │   └───< account name >
+            </span></span><span class="line"><span class="cl">|   |   |            < post images >
+            </span></span><span class="line"><span class="cl">│   │   │
+            </span></span><span class="line"><span class="cl">│   │   └───profile_pic
+            </span></span><span class="line"><span class="cl">|   |           < user profile picture >
+            </span></span><span class="line"><span class="cl">│   │           spt.jpg
+            </span></span><span class="line"><span class="cl">│   |
+            </span></span><span class="line"><span class="cl">│   └── templates
+            </span></span><span class="line"><span class="cl">│   │       about.html
+            </span></span><span class="line"><span class="cl">│   │       common.html
+            </span></span><span class="line"><span class="cl">│   │       editpost.html
+            </span></span><span class="line"><span class="cl">│   │       edituser.html
+            </span></span><span class="line"><span class="cl">│   │       home.html
+            </span></span><span class="line"><span class="cl">│   │       login.html
+            </span></span><span class="line"><span class="cl">│   │       newpost.html
+            </span></span><span class="line"><span class="cl">│   │       profile.html
+            </span></span><span class="line"><span class="cl">│   │       search.html
+            </span></span><span class="line"><span class="cl">│   │       signup.html
+            </span></span><span class="line"><span class="cl">└── __pycache__
+            </span></span></code>
+          </pre></div>
+       <ul>
+
+       </ul>
+       <h5>Here you can see the directory structure.</h5>
+       <li> The root folder contains the project folder. It also contains the requirements.txt and Procfile.</li>
+	<li>The Static and Templates folders covert the respective static files and templates according to the regular Flask implementation.</li>
+	<li>app.py runs the app whereas auth.py and views.py contain the respective blueprints for the Flask App.</li>
+	<li>models.py holds the database schema designed using SQLAlchemy</li>
+  <li>imageupload.py contains the image upload form templates</li>
+  </p>
+  <h4>Video Link:</h4>
+  <p>I hereby attach the <a href='https://drive.google.com/file/d/110lNvLuVW62FRO_yMx0KLNAEhXrVloXu/view?usp=sharing'>link</a> for my video demonstration on the working of my web app.</p>
+  <h6>Thank You</h6>
+</p>
+
+
+      <p class="card-text"><small class="text-muted">Crafted by PRANAV R (<a href="mailto: 21f1004199@ds.study.iitm.ac.in">21f1004199@ds.study.iitm.ac.in</a>)</small></p>
+    </div>
+      {% endblock %}

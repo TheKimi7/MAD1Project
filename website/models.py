@@ -20,7 +20,7 @@ class user(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True)
     username = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(120))
-    profile_pic = db.Column(db.String(20), default='spt.jpg')
+    profile_pic = db.Column(db.String(20), default='/static/profile_pic/spt.jpg')
     date_created = db.Column(MyDateTime, default=((dt.datetime.utcnow() + dt.timedelta(hours=5, minutes=30)).strftime('%d-%b-%y %H:%M:%S')))
     posts = db.relationship('post', backref='author')
     followed = db.relationship(

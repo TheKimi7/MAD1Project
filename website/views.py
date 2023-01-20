@@ -3,7 +3,7 @@ import flask_login
 from .models import post, user
 from . import db
 from .imageupload import ImageUpload, PostUpload
-import os
+import os, shutil
 
 views = Blueprint("views", __name__)
 
@@ -127,9 +127,9 @@ def edituser(id):
 
             if imgf.picture.data:
                 fname, fext = os.path.splitext(imgf.picture.data.filename)
-                pfpath = os.path.join(os.getcwd(),'website/static/profile_pic', (usr+fext))
+                pfpath = os.path.join(os.getcwd(),'website/static/post_pic', usr, (usr+fext))
                 imgf.picture.data.save(pfpath)
-                User.profile_pic = url_for('static', filename='profile_pic/' +(usr+fext))
+                User.profile_pic = url_for('static', filename='post_pic/' + usr + '/' + (usr+fext))
 
             email_already_exist = user.query.filter_by(email=eml).first()
             user_already_exist = user.query.filter_by(username=usr).first()
@@ -170,18 +170,15 @@ def edituser(id):
 def deleteuser(id):
     User = user.query.filter_by(id=id).first()
     if not User:
-        flash("Post already deleted", 'danger')
+        flash("User already deleted", 'danger')
     elif flask_login.current_user.id != User.id:
-        flash("You are not authorised to delete this post", 'danger')
+        flash("You are not authorised to access this page", 'danger')
     else:
+        shutil.rmtree(os.path.join(os.getcwd(),'website/static/post_pic', flask_login.current_user.username ))
         Posts = post.query.filter_by(author_user=id).all()
         for Post in Posts:
-            os.remove(Post.image)
             db.session.delete(Post)
-        os.rmdir(os.path.join(os.getcwd(),'website/static/post_pic', flask_login.current_user.username ))
-        if User.profile_pic != 'spt.jpg':
-            if os.path.exists("website"+str(User.profile_pic)):
-                os.remove("website"+str(User.profile_pic))
+            db.session.commit()
         db.session.delete(User)
         db.session.commit()
         flash("User deleted successfully.", 'success')
@@ -216,3 +213,7 @@ def unfollow(username):
         return redirect(url_for('views.profile', username=username))
     else:
         return redirect(url_for('views.home'))
+
+@views.route('/about')
+def about():
+    return render_template('about.html', user = flask_login.current_user)
